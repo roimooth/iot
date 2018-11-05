@@ -91,6 +91,8 @@ def read_dht11_dat():
     if the_bytes[4] != checksum:
         print("Data not good, skip")
         return False
+    else:
+        print("Data good!")
     return the_bytes[0], the_bytes[2]
 
 def main():

@@ -86,7 +86,7 @@ def read_dht11_dat():
             the_bytes.append(byte)
             byte = 0
     print the_bytes
-    checksum = (the_bytes[0] + the_bytes[1] + the_bytes[2] + the_bytes[3]) & 0xFF
+    checksum = (the_bytes[0] + the_bytes[1] + the_bytes[2] + the_bytes[3]) & 255
     if the_bytes[4] != checksum:
         print "Data not good, skip"
         return False

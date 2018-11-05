@@ -9,7 +9,6 @@ STATE_INIT_PULL_UP = 2
 STATE_DATA_FIRST_PULL_DOWN = 3
 STATE_DATA_PULL_UP = 4
 STATE_DATA_PULL_DOWN = 5
-
 def read_dht11_dat():
     GPIO.setup(DHTPIN, GPIO.OUT)
     GPIO.output(DHTPIN, GPIO.HIGH)
@@ -63,7 +62,7 @@ def read_dht11_dat():
             else:
                 continue
     if len(lengths) != 40:
-        print("Data not good, skip")
+        print "Data not good, skip"
         return False
     shortest_pull_up = min(lengths)
     longest_pull_up = max(lengths)
@@ -76,7 +75,7 @@ def read_dht11_dat():
         if length > halfway:
             bit = 1
         bits.append(bit)
-    print('bits: {}, length: {}'.format(bits, len(bits)))
+    print "bits: %s, length: %d" % (bits, len(bits))
     for i in range(0, len(bits)):
         byte = byte
         if (bits[i]):
@@ -86,28 +85,22 @@ def read_dht11_dat():
         if ((i + 1) % 8 == 0):
             the_bytes.append(byte)
             byte = 0
-    print(the_bytes)
+    print the_bytes
     checksum = (the_bytes[0] + the_bytes[1] + the_bytes[2] + the_bytes[3]) & 0xFF
-    print('the_bytes[4]: {}, checksum: {}'.format(the_bytes[4], checksum))
     if the_bytes[4] != checksum:
-        print("Data not good, skip")
+        print "Data not good, skip"
         return False
-    else:
-        print("Data good!")
     return the_bytes[0], the_bytes[2]
-
 def main():
-    print("Raspberry Pi wiringPi DHT11 Temperature test program\n")
+    print "Raspberry Pi wiringPi DHT11 Temperature test program\n"
     while True:
         result = read_dht11_dat()
         if result:
             humidity, temperature = result
-            print('humidity: {} %,  Temperature: {} C'.format(humidity, temperature))
+            print "humidity: %s %%,  Temperature: %s C" % (humidity, temperature)
         time.sleep(1)
-
 def destroy():
     GPIO.cleanup()
-
 if __name__ == '__main__':
     try:
         main()
